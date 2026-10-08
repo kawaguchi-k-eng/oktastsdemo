@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+# 環境変数ファイルは秘密情報を含むため一切コミットしない (.env.example のみ例外)
+.env*
+!.env.example
+next-env.d.ts
+*.tsbuildinfo
+keys/
+*.pem

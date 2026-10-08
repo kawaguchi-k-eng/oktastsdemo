@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        # Amplify Hosting の環境変数はビルド時にしか見えないため、
+        # SSR / API ルート (実行時) から参照できるよう .env.production に書き出す。
+        # NEXT_PUBLIC_ で始まらないのでブラウザ側には露出しない。
+        - env | grep -E '^(OKTA_|SESSION_SECRET|APP_|MS_GRAPH_|OPENAI_)' >> .env.production || true
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .next/cache/**/*
+      - node_modules/**/*
